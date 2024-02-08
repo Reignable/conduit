@@ -25,7 +25,7 @@
     "sourceMap": true,
     "strict": true,
     "target": "ES2022",
-    "types": ["node", "jest", "@testing-library/angular"],
+    "types": ["node", "jest", "@testing-library/angular", "@testing-library/user-event"],
     "useDefineForClassFields": false
   }
 }
