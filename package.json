@@ -43,6 +43,7 @@
     "eslint": "^8.56.0",
     "jest": "^29.7.0",
     "jest-preset-angular": "^14.0.0",
+    "testing-library-selector": "^0.3.1",
     "ts-node": "^10.9.2",
     "typescript": "~5.3.2"
   }
