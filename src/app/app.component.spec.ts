@@ -1,29 +1,24 @@
-import { TestBed } from '@angular/core/testing';
-import { AppComponent } from './app.component';
+import { TestBed } from "@angular/core/testing";
+import { AppComponent } from "./app.component";
+import { render, screen } from "@testing-library/angular";
 
-describe('AppComponent', () => {
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [AppComponent],
-    }).compileComponents();
-  });
-
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
+describe("AppComponent", () => {
+  it("should create the app", async () => {
+    const fixture = await render(AppComponent);
+    const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'angular-template' title`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('angular-template');
+  it(`should have the 'angular-template' title`, async () => {
+    const fixture = await render(AppComponent);
+    const app = fixture.debugElement.componentInstance;
+    expect(app.title).toEqual("angular-template");
   });
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, angular-template');
+  it("should render title", async () => {
+    await render(AppComponent);
+    expect(screen.getByRole("heading").textContent).toContain(
+      "Hello, angular-template"
+    );
   });
 });
