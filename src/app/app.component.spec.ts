@@ -19,32 +19,32 @@ describe('AppComponent', () => {
 
   it('should increment the counter', async () => {
     await render(AppComponent)
-    userEvent.click(ui.incrementButton.get())
+    await userEvent.click(ui.incrementButton.get())
     expect(await ui.count(1).find()).toBeInTheDocument()
   })
 
   it('should decrement the counter', async () => {
     await render(AppComponent)
-    userEvent.click(ui.decrementButton.get())
+    await userEvent.click(ui.decrementButton.get())
     expect(await ui.count(-1).find()).toBeInTheDocument()
   })
 
   it('should reset the counter', async () => {
     await render(AppComponent)
-    userEvent.click(ui.incrementButton.get())
-    userEvent.click(ui.incrementButton.get())
-    userEvent.click(ui.incrementButton.get())
+    await userEvent.click(ui.incrementButton.get())
+    await userEvent.click(ui.incrementButton.get())
+    await userEvent.click(ui.incrementButton.get())
     expect(await ui.count(3).find()).toBeInTheDocument()
-    userEvent.click(ui.resetButton.get())
+    await userEvent.click(ui.resetButton.get())
     expect(await ui.count(0).find()).toBeInTheDocument()
   })
 
   it('should display the square of the value', async () => {
     await render(AppComponent)
     expect(ui.square(0).get()).toBeInTheDocument()
-    userEvent.click(ui.incrementButton.get())
+    await userEvent.click(ui.incrementButton.get())
     expect(await ui.square(1).find()).toBeInTheDocument()
-    userEvent.click(ui.incrementButton.get())
+    await userEvent.click(ui.incrementButton.get())
     expect(await ui.square(4).find()).toBeInTheDocument()
   })
 })
