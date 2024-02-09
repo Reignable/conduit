@@ -44,8 +44,5 @@
       "rules": {}
     }
   ],
-  "plugins": [
-    "@stylistic/eslint-plugin"
-  ],
   "root": true
 }
