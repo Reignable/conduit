@@ -50,7 +50,8 @@
         "*.spec.ts"
       ],
       "extends": [
-        "plugin:testing-library/angular"
+        "plugin:testing-library/angular",
+        "plugin:jest/recommended"
       ]
     },
     {
