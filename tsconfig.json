@@ -8,6 +8,11 @@
   },
   "compileOnSave": false,
   "compilerOptions": {
+    "paths": {
+      "@model": [
+        "./src/model"
+      ],
+    },
     "declaration": false,
     "esModuleInterop": true,
     "experimentalDecorators": true,

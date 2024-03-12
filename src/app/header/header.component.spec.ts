@@ -10,7 +10,7 @@ const ui = {
   newArticle: byRole('link', { name: /new article/i }),
   settings: byRole('link', { name: /settings/i }),
   profile: byRole('link', { name: /test user/i }),
-  userImage: byAltText(/test user/i),
+  userImage: byAltText(/test user profile image/i),
 
 }
 
@@ -55,7 +55,9 @@ describe('HeaderComponent', () => {
 
   describe('authenticated user', () => {
     it('should not show a login or register link', async () => {
-      await render(HeaderComponent)
+      await render(HeaderComponent, {
+        componentInputs: { isLoggedIn: true },
+      })
 
       expect(
         ui.signIn.query(),
@@ -67,7 +69,9 @@ describe('HeaderComponent', () => {
   })
 
   it('should show a new article link', async () => {
-    await render(HeaderComponent)
+    await render(HeaderComponent, {
+      componentInputs: { isLoggedIn: true },
+    })
 
     expect(ui.newArticle.get()).toHaveAttribute(
       'href',
@@ -76,7 +80,9 @@ describe('HeaderComponent', () => {
   })
 
   it('should show a settings link', async () => {
-    await render(HeaderComponent)
+    await render(HeaderComponent, {
+      componentInputs: { isLoggedIn: true },
+    })
 
     expect(ui.settings.get()).toHaveAttribute(
       'href',
@@ -85,7 +91,11 @@ describe('HeaderComponent', () => {
   })
 
   it('should show a profile link', async () => {
-    await render(HeaderComponent)
+    const username = 'Test User'
+    const token = 'test-user'
+    await render(HeaderComponent, {
+      componentInputs: { isLoggedIn: true, username, token },
+    })
 
     expect(ui.profile.get()).toHaveAttribute(
       'href',
@@ -94,11 +104,15 @@ describe('HeaderComponent', () => {
   })
 
   it('should show the user image', async () => {
-    await render(HeaderComponent)
+    const username = 'Test User'
+    const image = 'https://static.productionready.io/images/smiley-cyrus.jpg'
+    await render(HeaderComponent, {
+      componentInputs: { isLoggedIn: true, username, image },
+    })
 
     expect(ui.userImage.get()).toHaveAttribute(
       'src',
-      'https://static.productionready.io/images/smiley-cyrus.jpg',
+      image,
     )
   })
 })
