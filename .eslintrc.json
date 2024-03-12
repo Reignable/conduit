@@ -38,7 +38,7 @@
         "@angular-eslint/component-selector": [
           "error",
           {
-            "prefix": "app",
+            "prefix": "conduit",
             "style": "kebab-case",
             "type": "element"
           }
@@ -46,7 +46,7 @@
         "@angular-eslint/directive-selector": [
           "error",
           {
-            "prefix": "app",
+            "prefix": "conduit",
             "style": "camelCase",
             "type": "attribute"
           }

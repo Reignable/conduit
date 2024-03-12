@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core'
 
 @Component({
-  selector: 'app-header',
+  selector: 'conduit-header',
   standalone: true,
   templateUrl: './header.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

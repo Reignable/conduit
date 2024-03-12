@@ -1,42 +1,104 @@
-import { render, screen } from '@testing-library/angular'
+import { render } from '@testing-library/angular'
+import { byAltText, byRole } from 'testing-library-selector'
 import { HeaderComponent } from './header.component'
+
+const ui = {
+  appName: byRole('link', { name: /conduit/i }),
+  home: byRole('link', { name: /home/i }),
+  signIn: byRole('link', { name: /sign in/i }),
+  signUp: byRole('link', { name: /sign up/i }),
+  newArticle: byRole('link', { name: /new article/i }),
+  settings: byRole('link', { name: /settings/i }),
+  profile: byRole('link', { name: /test user/i }),
+  userImage: byAltText(/test user/i),
+
+}
 
 describe('HeaderComponent', () => {
   it('should show the app name as a home link', async () => {
     await render(HeaderComponent)
 
-    expect(screen.getByRole('link', { name: /conduit/i })).toHaveAttribute('href', '/')
+    expect(ui.appName.get()).toHaveAttribute(
+      'href',
+      '/',
+    )
   })
 
   it('should show a home link', async () => {
     await render(HeaderComponent)
 
-    expect(screen.getByRole('link', { name: /home/i })).toHaveAttribute('href', '/')
+    expect(ui.home.get()).toHaveAttribute(
+      'href',
+      '/',
+    )
   })
 
   describe('unauthenticated user', () => {
     it('should show a login link', async () => {
       await render(HeaderComponent)
 
-      expect(screen.getByRole('link', { name: /sign in/i })).toHaveAttribute('href', '/login')
+      expect(ui.signIn.get()).toHaveAttribute(
+        'href',
+        '/login',
+      )
     })
 
     it('should show a register link', async () => {
       await render(HeaderComponent)
 
-      expect(screen.getByRole('link', { name: /sign up/i })).toHaveAttribute('href', '/register')
+      expect(ui.signUp.get()).toHaveAttribute(
+        'href',
+        '/register',
+      )
     })
   })
 
   describe('authenticated user', () => {
-    it.todo('should show a new article link')
+    it('should not show a login or register link', async () => {
+      await render(HeaderComponent)
 
-    it.todo('should show a settings link')
+      expect(
+        ui.signIn.query(),
+      ).not.toBeInTheDocument()
+      expect(
+        ui.signUp.query(),
+      ).not.toBeInTheDocument()
+    })
+  })
 
-    it.todo('should show a profile link')
+  it('should show a new article link', async () => {
+    await render(HeaderComponent)
 
-    it.todo('should show the user image')
+    expect(ui.newArticle.get()).toHaveAttribute(
+      'href',
+      '/editor',
+    )
+  })
 
-    it.todo("should show the user's name")
+  it('should show a settings link', async () => {
+    await render(HeaderComponent)
+
+    expect(ui.settings.get()).toHaveAttribute(
+      'href',
+      '/settings',
+    )
+  })
+
+  it('should show a profile link', async () => {
+    await render(HeaderComponent)
+
+    expect(ui.profile.get()).toHaveAttribute(
+      'href',
+      '/profile/test-user',
+    )
+  })
+
+  it('should show the user image', async () => {
+    await render(HeaderComponent)
+
+    expect(ui.userImage.get()).toHaveAttribute(
+      'src',
+      'https://static.productionready.io/images/smiley-cyrus.jpg',
+    )
   })
 })
