@@ -4,6 +4,16 @@
   ],
   "overrides": [
     {
+      "overrides": [
+        {
+          "files": [
+            "*.stories.ts"
+          ],
+          "extends": [
+            "plugin:storybook/recommended"
+          ]
+        }
+      ],
       "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
