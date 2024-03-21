@@ -1,18 +1,14 @@
-import { ChangeDetectionStrategy, Component, Input, computed, signal } from '@angular/core'
+import { ChangeDetectionStrategy, Component, Input, signal } from '@angular/core'
 import { User } from '@model'
-import { MenuItem } from 'primeng/api'
 import { MenubarModule } from 'primeng/menubar'
+import { ButtonModule } from 'primeng/button'
+import { AvatarModule } from 'primeng/avatar'
 
 @Component({
   selector: 'conduit-header',
   standalone: true,
   templateUrl: './header.component.html',
-  styles: [`
-  :host ::ng-deep p-menubarsub {
-    width: 100%;
-}
-  `],
-  imports: [MenubarModule],
+  imports: [AvatarModule, MenubarModule, ButtonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {

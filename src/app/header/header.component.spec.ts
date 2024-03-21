@@ -1,5 +1,5 @@
 import { render } from '@testing-library/angular'
-import { byAltText, byRole } from 'testing-library-selector'
+import { byRole } from 'testing-library-selector'
 import { HeaderComponent } from './header.component'
 
 const ui = {
@@ -10,7 +10,7 @@ const ui = {
   newArticle: byRole('link', { name: /new article/i }),
   settings: byRole('link', { name: /settings/i }),
   profile: byRole('link', { name: /test user/i }),
-  userImage: byAltText(/test user profile image/i),
+  userImage: byRole('img', { name: /test user profile image/i }),
 
 }
 

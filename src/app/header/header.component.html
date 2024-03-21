@@ -1,11 +1,23 @@
-<a href="/">Conduit</a>
-<a href="/">Home</a>
-@if (!_isLoggedIn()) {
-  <a href="/login">Sign in</a>
-  <a href="/register">Sign up</a>
-} @else {
-  <a href="/editor">New Article</a>
-  <a href="/settings">Settings</a>
-  <a href="/profile/{{ _token() }}">{{ _username() }}</a>
-  <img [src]="_image()" alt="{{ _username() }} profile image" />
-}
+<p-menubar>
+  <ng-template pTemplate="start">
+    <a href="/" class="p-button p-button-link">Conduit</a>
+    <a href="/" class="p-button p-button-link">Home</a>
+    @if (_isLoggedIn()) {
+      <a class="p-button p-button-link" href="/editor">New Article</a>
+      <a class="p-button p-button-link" href="/settings">Settings</a>
+    }
+  </ng-template>
+  @if (_isLoggedIn()) {
+    <a class="p-button p-button-link" href="/profile/{{ _token() }}">{{
+      _username()
+    }}</a>
+    <p-avatar
+      [image]="_image()"
+      shape="circle"
+      ariaLabel="{{ _username() }} profile image"
+    />
+  } @else {
+    <a class="p-button p-button-link" href="/login">Sign in</a>
+    <a class="p-button p-button-link p-font-bold" href="/register">Sign up</a>
+  }
+</p-menubar>
