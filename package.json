@@ -9,7 +9,10 @@
     "test": "ng test",
     "lint": "ng lint",
     "storybook": "ng run angular-template:storybook",
-    "build-storybook": "ng run angular-template:build-storybook"
+    "build-storybook": "ng run angular-template:build-storybook",
+    "ci:lint": "ng lint",
+    "ci:test": "ng test",
+    "ci:build": "ng build --configuration production"
   },
   "private": true,
   "dependencies": {
@@ -38,6 +41,7 @@
     "@angular/compiler-cli": "^17.1.0",
     "@chromatic-com/storybook": "^1.2.18",
     "@faker-js/faker": "^8.4.1",
+    "@happy-dom/jest-environment": "^14.3.6",
     "@storybook/addon-essentials": "^8.0.0",
     "@storybook/addon-interactions": "^8.0.0",
     "@storybook/addon-links": "^8.0.0",
@@ -57,6 +61,7 @@
     "eslint-plugin-rxjs-angular": "^2.0.1",
     "eslint-plugin-storybook": "^0.8.0",
     "eslint-plugin-testing-library": "^6.2.0",
+    "happy-dom": "^14.3.6",
     "jest": "^29.7.0",
     "jest-preset-angular": "^14.0.0",
     "storybook": "^8.0.0",
