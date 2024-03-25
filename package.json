@@ -9,7 +9,10 @@
     "test": "ng test",
     "lint": "ng lint",
     "storybook": "ng run angular-template:storybook",
-    "build-storybook": "ng run angular-template:build-storybook"
+    "build-storybook": "ng run angular-template:build-storybook",
+    "ci:lint": "ng lint",
+    "ci:test": "ng test",
+    "ci:build": "ng build --configuration production"
   },
   "private": true,
   "dependencies": {
