@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/c
 const DEFAULT_COUNT = 0
 
 @Component({
-  selector: 'app-root',
+  selector: 'conduit-root',
   standalone: true,
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
