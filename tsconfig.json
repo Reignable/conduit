@@ -38,7 +38,8 @@
       "jest",
       "@testing-library/angular",
       "@testing-library/user-event",
-      "testing-library-selector"
+      "testing-library-selector",
+      "msw"
     ],
     "useDefineForClassFields": false
   }
