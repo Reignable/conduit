@@ -1,5 +1,5 @@
 import { AsyncPipe, JsonPipe } from '@angular/common'
-import { HttpClient, HttpClientModule } from '@angular/common/http'
+import { HttpClientModule } from '@angular/common/http'
 import {
   ChangeDetectionStrategy, Component, inject,
 } from '@angular/core'
@@ -7,6 +7,7 @@ import { toObservable } from '@angular/core/rxjs-interop'
 import {
   FormsModule,
 } from '@angular/forms'
+import { UserAndAuthenticationService } from '@services'
 import { UserStore } from '@state'
 import {
   SignalInputDirective,
@@ -15,11 +16,10 @@ import {
   createFormField,
   createFormGroup,
 } from 'ng-signal-forms'
-import { httpRequestStates, isLoadedState } from 'ngx-http-request-state'
+import { isLoadedState } from 'ngx-http-request-state'
 import {
   Subject, switchMap, tap,
 } from 'rxjs'
-import { UserResponse } from '../../model/auth'
 
 const emailValidator = (): ValidatorFn => (value, setState) => {
   const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value as string)
@@ -37,7 +37,7 @@ const emailValidator = (): ValidatorFn => (value, setState) => {
   imports: [FormsModule, SignalInputDirective, AsyncPipe, HttpClientModule, JsonPipe],
 })
 export class RegisterComponent {
-  private http = inject(HttpClient)
+  private userAndAuthService = inject(UserAndAuthenticationService)
   private userStore = inject(UserStore)
 
   registerForm = createFormGroup({
@@ -52,7 +52,7 @@ export class RegisterComponent {
   registerRequest$ = this.submitted.pipe(
     switchMap(() => this.registerFormValue$),
     switchMap(formValue =>
-      this.http.post<UserResponse>('/users', { user: formValue }).pipe(httpRequestStates()),
+      this.userAndAuthService.register({ user: formValue }),
     ),
     tap((response) => {
       if (isLoadedState(response)) this.userStore.logIn(response.value.user)
