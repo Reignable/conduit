@@ -1,5 +1,5 @@
 import {
-  HttpResponse, PathParams, http,
+  HttpResponse, PathParams, http, delay,
 } from 'msw'
 import {
   ErrorResponse,
@@ -13,6 +13,8 @@ const registerHandler = http.post<PathParams, RegisterRequest>('/users',
     const {
       email, username,
     } = body.user
+
+    await delay('real')
 
     if (username === 'FAIL') {
       return new HttpResponse('Server error', { status: 500, statusText: 'Internal Server Error' })

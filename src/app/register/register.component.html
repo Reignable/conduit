@@ -26,5 +26,7 @@
   @if (password.touched() && password.hasError("required")) {
     <p role="alert" aria-label="password error">A password is required</p>
   }
-  <button type="submit">Sign Up</button>
+  <button type="submit" [disabled]="(registerRequest$ | async)?.isLoading">
+    Sign Up
+  </button>
 </form>
