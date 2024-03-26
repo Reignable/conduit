@@ -34,7 +34,33 @@
         ]
       },
       "rules": {
-        "@stylistic/quotes": ["error", "single", { "avoidEscape": true }],
+        "@stylistic/quotes": [
+          "error",
+          "single",
+          {
+            "avoidEscape": true
+          }
+        ],
+        "@stylistic/max-len": [
+          "error",
+          {
+            "code": 120
+          }
+        ],
+        "@stylistic/object-curly-newline": [
+          "error",
+          {
+            "multiline": true,
+            "consistent": true,
+            "minProperties": 3
+          }
+        ],
+        "@stylistic/object-property-newline": [
+          "error",
+          {
+            "allowAllPropertiesOnSameLine": true
+          }
+        ],
         "@angular-eslint/component-selector": [
           "error",
           {
