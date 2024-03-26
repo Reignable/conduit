@@ -1,21 +1,29 @@
-<form [formGroup]="registerForm" (ngSubmit)="handleSubmit()">
-  <label>Username<input type="text" /></label>
-  @if (username.invalid && username.touched) {
+<form (ngSubmit)="handleSubmit()">
+  <label for="username">Username</label>
+  <input id="username" name="username" ngModel [formField]="username" />
+  @if (username.touched() && username.hasError("required")) {
     <p role="alert" aria-label="username error">A username is required</p>
   }
-  <label>Email<input type="text" formControlName="email" /></label>
-  @if (email.invalid && email.touched) {
+  <label for="email">Email</label>
+  <input id="email" name="email" ngModel [formField]="email" />
+  @if (!email.valid() && email.touched()) {
     <p role="alert" aria-label="email error">
       @if (email.hasError("required")) {
         An email is required
-      }
-      @if (email.hasError("email")) {
+      } @else if (email.hasError("email")) {
         Please enter a valid email
       }
     </p>
   }
-  <label>Password<input type="text" /></label>
-  @if (password.invalid && password.touched) {
+  <label for="password">Password</label>
+  <input
+    id="password"
+    type="password"
+    name="password"
+    ngModel
+    [formField]="password"
+  />
+  @if (password.touched() && password.hasError("required")) {
     <p role="alert" aria-label="password error">A password is required</p>
   }
   <button type="submit">Sign Up</button>

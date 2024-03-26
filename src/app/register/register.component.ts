@@ -1,24 +1,38 @@
+import { AsyncPipe } from '@angular/common'
 import {
-  ChangeDetectionStrategy, Component, inject,
+  ChangeDetectionStrategy, Component,
 } from '@angular/core'
 import {
-  FormBuilder, ReactiveFormsModule, Validators,
+  FormsModule,
 } from '@angular/forms'
+import {
+  SignalInputDirective,
+  ValidatorFn,
+  Validators,
+  createFormField,
+  createFormGroup,
+} from 'ng-signal-forms'
+
+const emailValidator = (): ValidatorFn => (value, setState) => {
+  const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value as string)
+  if (valid) setState('VALID')
+  else setState('INVALID', {
+    email: { details: {} },
+  })
+}
 
 @Component({
   selector: 'conduit-register',
   standalone: true,
   templateUrl: './register.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule],
+  imports: [FormsModule, SignalInputDirective, AsyncPipe],
 })
 export class RegisterComponent {
-  private formBuilder = inject(FormBuilder)
-
-  registerForm = this.formBuilder.group({
-    username: ['', Validators.required],
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', Validators.required],
+  registerForm = createFormGroup({
+    username: createFormField('', { validators: [Validators.required()] }),
+    email: createFormField('', { validators: [Validators.required(), emailValidator()] }),
+    password: createFormField('', { validators: [Validators.required()] }),
   })
 
   get username() {
@@ -35,7 +49,6 @@ export class RegisterComponent {
 
   handleSubmit() {
     this.registerForm.markAllAsTouched()
-    if (this.registerForm.invalid) return
-    console.log(this.registerForm.value)
+    if (!this.registerForm.valid()) return
   }
 }
