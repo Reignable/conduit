@@ -1,6 +1,9 @@
 import { render } from '@testing-library/angular'
 import { byRole } from 'testing-library-selector'
 import { HeaderComponent } from './header.component'
+import { UserStore } from '../state/user.store'
+import { signalState } from '@ngrx/signals'
+import { createUser } from '@mocks'
 
 const ui = {
   appName: byRole('link', { name: /conduit/i }),
@@ -56,7 +59,7 @@ describe('HeaderComponent', () => {
   describe('authenticated user', () => {
     it('should not show a login or register link', async () => {
       await render(HeaderComponent, {
-        componentInputs: { isLoggedIn: true },
+        componentProviders: [{ provide: UserStore, useValue: signalState({ user: createUser(), isLoggedIn: true }) }],
       })
 
       expect(
@@ -70,7 +73,7 @@ describe('HeaderComponent', () => {
 
   it('should show a new article link', async () => {
     await render(HeaderComponent, {
-      componentInputs: { isLoggedIn: true },
+      componentProviders: [{ provide: UserStore, useValue: signalState({ user: createUser(), isLoggedIn: true }) }],
     })
 
     expect(ui.newArticle.get()).toHaveAttribute(
@@ -81,7 +84,7 @@ describe('HeaderComponent', () => {
 
   it('should show a settings link', async () => {
     await render(HeaderComponent, {
-      componentInputs: { isLoggedIn: true },
+      componentProviders: [{ provide: UserStore, useValue: signalState({ user: createUser(), isLoggedIn: true }) }],
     })
 
     expect(ui.settings.get()).toHaveAttribute(
@@ -94,7 +97,12 @@ describe('HeaderComponent', () => {
     const username = 'Test User'
     const token = 'test-user'
     await render(HeaderComponent, {
-      componentInputs: { isLoggedIn: true, username, token },
+      componentProviders: [
+        {
+          provide: UserStore,
+          useValue: signalState({ user: createUser({ username, token }), isLoggedIn: true }),
+        },
+      ],
     })
 
     expect(ui.profile.get()).toHaveAttribute(
@@ -107,7 +115,12 @@ describe('HeaderComponent', () => {
     const username = 'Test User'
     const image = 'https://static.productionready.io/images/smiley-cyrus.jpg'
     await render(HeaderComponent, {
-      componentInputs: { isLoggedIn: true, username, image },
+      componentProviders: [
+        {
+          provide: UserStore,
+          useValue: signalState({ user: createUser({ username, image }), isLoggedIn: true }),
+        },
+      ],
     })
 
     expect(ui.userImage.get()).toHaveAttribute(

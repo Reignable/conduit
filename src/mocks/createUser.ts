@@ -6,7 +6,7 @@ export const createUser = (overrides: Partial<User> = {}): User => {
   const lastName = faker.person.lastName()
   return ({
     bio: faker.lorem.sentence(),
-    image: faker.image.avatar(),
+    image: faker.image.avatarGitHub(),
     token: faker.string.uuid(),
     email: faker.internet.email({ firstName, lastName }),
     username: faker.internet.userName({ firstName, lastName }),

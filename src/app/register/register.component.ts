@@ -7,6 +7,7 @@ import { toObservable } from '@angular/core/rxjs-interop'
 import {
   FormsModule,
 } from '@angular/forms'
+import { UserStore } from '@state'
 import {
   SignalInputDirective,
   ValidatorFn,
@@ -14,8 +15,11 @@ import {
   createFormField,
   createFormGroup,
 } from 'ng-signal-forms'
-import { httpRequestStates } from 'ngx-http-request-state'
-import { Subject, switchMap } from 'rxjs'
+import { httpRequestStates, isLoadedState } from 'ngx-http-request-state'
+import {
+  Subject, switchMap, tap,
+} from 'rxjs'
+import { UserResponse } from '../../model/auth'
 
 const emailValidator = (): ValidatorFn => (value, setState) => {
   const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value as string)
@@ -34,6 +38,7 @@ const emailValidator = (): ValidatorFn => (value, setState) => {
 })
 export class RegisterComponent {
   private http = inject(HttpClient)
+  private userStore = inject(UserStore)
 
   registerForm = createFormGroup({
     username: createFormField('', { validators: [Validators.required()] }),
@@ -46,7 +51,12 @@ export class RegisterComponent {
 
   registerRequest$ = this.submitted.pipe(
     switchMap(() => this.registerFormValue$),
-    switchMap(formValue => this.http.post('/users', { user: formValue }).pipe(httpRequestStates())),
+    switchMap(formValue =>
+      this.http.post<UserResponse>('/users', { user: formValue }).pipe(httpRequestStates()),
+    ),
+    tap((response) => {
+      if (isLoadedState(response)) this.userStore.logIn(response.value.user)
+    }),
   )
 
   get username() {
