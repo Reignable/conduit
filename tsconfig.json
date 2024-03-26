@@ -12,6 +12,9 @@
       "@model": [
         "./src/model"
       ],
+      "@mocks": [
+        "./src/mocks"
+      ]
     },
     "declaration": false,
     "esModuleInterop": true,
