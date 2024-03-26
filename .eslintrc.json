@@ -1,6 +1,7 @@
 {
   "ignorePatterns": [
-    "projects/**/*"
+    "projects/**/*",
+    "src/mockServiceWorker.js"
   ],
   "overrides": [
     {
