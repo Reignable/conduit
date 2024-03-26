@@ -1,0 +1,22 @@
+<form [formGroup]="registerForm" (ngSubmit)="handleSubmit()">
+  <label>Username<input type="text" /></label>
+  @if (username.invalid && username.touched) {
+    <p role="alert" aria-label="username error">A username is required</p>
+  }
+  <label>Email<input type="text" formControlName="email" /></label>
+  @if (email.invalid && email.touched) {
+    <p role="alert" aria-label="email error">
+      @if (email.hasError("required")) {
+        An email is required
+      }
+      @if (email.hasError("email")) {
+        Please enter a valid email
+      }
+    </p>
+  }
+  <label>Password<input type="text" /></label>
+  @if (password.invalid && password.touched) {
+    <p role="alert" aria-label="password error">A password is required</p>
+  }
+  <button type="submit">Sign Up</button>
+</form>
