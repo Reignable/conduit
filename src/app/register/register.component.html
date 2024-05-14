@@ -4,6 +4,9 @@
   @if (username.touched() && username.hasError("required")) {
     <p role="alert" aria-label="username error">A username is required</p>
   }
+  @if (usernameServerErrors$ | async; as serverErrors) {
+    <p role="alert" aria-label="username error">{{ serverErrors }}</p>
+  }
   <label for="email">Email</label>
   <input id="email" name="email" ngModel [formField]="email" />
   @if (!email.valid() && email.touched()) {
@@ -14,6 +17,9 @@
         Please enter a valid email
       }
     </p>
+  }
+  @if (emailServerErrors$ | async; as serverErrors) {
+    <p role="alert" aria-label="email error">{{ serverErrors }}</p>
   }
   <label for="password">Password</label>
   <input

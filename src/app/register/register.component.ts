@@ -7,6 +7,7 @@ import { toObservable } from '@angular/core/rxjs-interop'
 import {
   FormsModule,
 } from '@angular/forms'
+import { ConduitErrorResponse } from '@model'
 import { UserAndAuthenticationService } from '@services'
 import { UserStore } from '@state'
 import {
@@ -16,9 +17,15 @@ import {
   createFormField,
   createFormGroup,
 } from 'ng-signal-forms'
-import { isLoadedState } from 'ngx-http-request-state'
 import {
-  Subject, switchMap, tap,
+  HttpRequestState,
+  isLoadedState,
+} from 'ngx-http-request-state'
+import {
+  Observable,
+  Subject,
+  map, shareReplay, switchMap, tap,
+  withLatestFrom,
 } from 'rxjs'
 
 const emailValidator = (): ValidatorFn => (value, setState) => {
@@ -28,6 +35,13 @@ const emailValidator = (): ValidatorFn => (value, setState) => {
     email: { details: {} },
   })
 }
+
+const mapResponseErrors = <T>(key: string) =>
+  (source$: Observable<HttpRequestState<T>>) =>
+    source$.pipe(
+      map(response => response.error as ConduitErrorResponse | undefined),
+      map(error => error?.error.errors[key]),
+    )
 
 @Component({
   selector: 'conduit-register',
@@ -50,14 +64,18 @@ export class RegisterComponent {
   private registerFormValue$ = toObservable(this.registerForm.value)
 
   registerRequest$ = this.submitted.pipe(
-    switchMap(() => this.registerFormValue$),
-    switchMap(formValue =>
+    withLatestFrom(this.registerFormValue$),
+    switchMap(([,formValue]) =>
       this.userAndAuthService.register({ user: formValue }),
     ),
     tap((response) => {
       if (isLoadedState(response)) this.userStore.logIn(response.value.user)
     }),
+    shareReplay({ bufferSize: 1, refCount: true }),
   )
+
+  usernameServerErrors$ = this.registerRequest$.pipe(mapResponseErrors('username'))
+  emailServerErrors$ = this.registerRequest$.pipe(mapResponseErrors('email'))
 
   get username() {
     return this.registerForm.controls.username
