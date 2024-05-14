@@ -2,19 +2,21 @@
   <ng-template pTemplate="start">
     <a href="/" class="p-button p-button-link">Conduit</a>
     <a href="/" class="p-button p-button-link">Home</a>
-    @if (_isLoggedIn()) {
+    @if (userStore.isLoggedIn()) {
       <a class="p-button p-button-link" href="/editor">New Article</a>
       <a class="p-button p-button-link" href="/settings">Settings</a>
     }
   </ng-template>
-  @if (_isLoggedIn()) {
-    <a class="p-button p-button-link" href="/profile/{{ _token() }}">{{
-      _username()
-    }}</a>
+  @if (userStore.isLoggedIn()) {
+    <a
+      class="p-button p-button-link"
+      href="/profile/{{ userStore.user.token() }}"
+      >{{ userStore.user.username() || "Profile" }}</a
+    >
     <p-avatar
-      [image]="_image()"
+      [image]="userStore.user.image()"
       shape="circle"
-      ariaLabel="{{ _username() }} profile image"
+      ariaLabel="{{ userStore.user.username() }} profile image"
     />
   } @else {
     <a class="p-button p-button-link" href="/login">Sign in</a>
