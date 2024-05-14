@@ -3,7 +3,9 @@ import { Injectable, inject } from '@angular/core'
 import { RegisterRequest, UserResponse } from '../../model/auth'
 import { httpRequestStates } from 'ngx-http-request-state'
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class UserAndAuthenticationService {
   private httpClient = inject(HttpClient)
 
