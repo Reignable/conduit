@@ -1,40 +1,60 @@
 <form (ngSubmit)="handleSubmit()">
-  <label for="username">Username</label>
-  <input id="username" name="username" ngModel [formField]="username" />
-  @if (username.touched() && username.hasError("required")) {
-    <p role="alert" aria-label="username error">A username is required</p>
+  @if (requestError$ | async; as error) {
+    <p-message severity="error" [text]="error" />
   }
-  @if (usernameServerErrors$ | async; as serverErrors) {
-    <p role="alert" aria-label="username error">{{ serverErrors }}</p>
-  }
-  <label for="email">Email</label>
-  <input id="email" name="email" ngModel [formField]="email" />
-  @if (!email.valid() && email.touched()) {
-    <p role="alert" aria-label="email error">
-      @if (email.hasError("required")) {
-        An email is required
-      } @else if (email.hasError("email")) {
-        Please enter a valid email
-      }
-    </p>
-  }
-  @if (emailServerErrors$ | async; as serverErrors) {
-    <p role="alert" aria-label="email error">{{ serverErrors }}</p>
-  }
-  <label for="password">Password</label>
-  <input
-    id="password"
-    type="password"
-    name="password"
-    ngModel
-    [formField]="password"
+  <div class="field">
+    <label for="username">Username</label>
+    <input
+      pInputText
+      id="username"
+      name="username"
+      ngModel
+      [formField]="username"
+    />
+    @if (username.touched() && username.hasError("required")) {
+      <small role="alert" aria-label="username error">
+        A username is required
+      </small>
+    }
+    @if (usernameServerErrors$ | async; as serverErrors) {
+      <small role="alert" aria-label="username error">{{ serverErrors }}</small>
+    }
+  </div>
+  <div class="field">
+    <label for="email">Email</label>
+    <input pInputText id="email" name="email" ngModel [formField]="email" />
+    @if (!email.valid() && email.touched()) {
+      <small role="alert" aria-label="email error">
+        @if (email.hasError("required")) {
+          An email is required
+        } @else if (email.hasError("email")) {
+          Please enter a valid email
+        }
+      </small>
+    }
+    @if (emailServerErrors$ | async; as serverErrors) {
+      <small role="alert" aria-label="email error">{{ serverErrors }}</small>
+    }
+  </div>
+  <div class="field">
+    <label for="password">Password</label>
+    <input
+      pInputText
+      id="password"
+      type="password"
+      name="password"
+      ngModel
+      [formField]="password"
+    />
+    @if (password.touched() && password.hasError("required")) {
+      <small role="alert" aria-label="password error">
+        A password is required
+      </small>
+    }
+  </div>
+  <p-button
+    type="submit"
+    label="Sign Up"
+    [loading]="(registerRequest$ | async)?.isLoading === true"
   />
-  @if (password.touched() && password.hasError("required")) {
-    <p role="alert" aria-label="password error">A password is required</p>
-  }
-  <button type="submit" [disabled]="(registerRequest$ | async)?.isLoading">
-    Sign Up
-  </button>
 </form>
-
-<p>{{ requestError$ | async }}</p>

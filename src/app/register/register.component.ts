@@ -21,6 +21,9 @@ import {
   HttpRequestState,
   isLoadedState,
 } from 'ngx-http-request-state'
+import { ButtonModule } from 'primeng/button'
+import { InputTextModule } from 'primeng/inputtext'
+import { MessageModule } from 'primeng/message'
 import {
   Observable,
   Subject,
@@ -47,8 +50,18 @@ const mapResponseErrors = <T>(key: string) =>
   selector: 'conduit-register',
   standalone: true,
   templateUrl: './register.component.html',
+  styleUrl: './register.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule, SignalInputDirective, AsyncPipe, HttpClientModule, JsonPipe],
+  imports: [
+    AsyncPipe,
+    ButtonModule,
+    FormsModule,
+    HttpClientModule,
+    InputTextModule,
+    JsonPipe,
+    MessageModule,
+    SignalInputDirective,
+  ],
 })
 export class RegisterComponent {
   private userAndAuthService = inject(UserAndAuthenticationService)
