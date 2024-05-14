@@ -58,4 +58,11 @@ test('shows an error message if the username or email is already taken', async (
   expect(ui.emailError()).not.toBeAttached()
 })
 
-// test('shows a generic error message if the server fails')
+test('shows a generic error message if the server fails', async ({ page, ui }) => {
+  await page.goto('/register')
+  await ui.usernameInput().fill('FAIL')
+  await ui.emailInput().fill(faker.internet.email())
+  await ui.passwordInput().fill(faker.internet.password())
+  await ui.signUpButton().click()
+  await expect(page.getByText('Server error')).toBeVisible()
+})

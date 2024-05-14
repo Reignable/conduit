@@ -1,5 +1,5 @@
 import { AsyncPipe, JsonPipe } from '@angular/common'
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule, HttpErrorResponse } from '@angular/common/http'
 import {
   ChangeDetectionStrategy, Component, inject,
 } from '@angular/core'
@@ -40,7 +40,7 @@ const mapResponseErrors = <T>(key: string) =>
   (source$: Observable<HttpRequestState<T>>) =>
     source$.pipe(
       map(response => response.error as ConduitErrorResponse | undefined),
-      map(error => error?.error.errors[key]),
+      map(error => error?.error?.errors?.[key]),
     )
 
 @Component({
@@ -72,6 +72,11 @@ export class RegisterComponent {
       if (isLoadedState(response)) this.userStore.logIn(response.value.user)
     }),
     shareReplay({ bufferSize: 1, refCount: true }),
+  )
+
+  requestError$ = this.registerRequest$.pipe(
+    map(response => response.error as HttpErrorResponse | undefined),
+    map(error => error?.message),
   )
 
   usernameServerErrors$ = this.registerRequest$.pipe(mapResponseErrors('username'))
